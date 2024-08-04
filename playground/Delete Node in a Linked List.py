@@ -1,13 +1,13 @@
 # Definition for singly-linked list.
 class ListNode(object):
-    def __init__(self, x):
-        self.val = x
-        self.next = None
+    def __init__(self, data, next=None):
+        self.data = data
+        self.next = next
     def __repr__(self):
         if self.next:
-            return f"ListNode({self.val}->{self.next.val})"
+            return f"ListNode({self.data}->{self.next.val})"
         else:
-            return f"ListNode({self.val}->None)"
+            return f"ListNode({self.data}->None)"
         
 class Solution(object):
     def deleteNode(self, node):
@@ -21,24 +21,43 @@ class Solution(object):
             node.next = node_to_delete.next
             del node_to_delete
 
-head = [4,5,1,9]
+class LinkedList(object):
+    def __init__(self, head=None):
+        self.head = head
+        self.size = 0
+        
+    def add(self, node_data):
+        new_head = ListNode(node_data, self.head)
+        self.head = new_head
+        self.size += 1
 
-for index, val in enumerate(head):
-    head[index] = ListNode(val)
-
-for index, val in enumerate(head):
-    if index < len(head)-1:
-        head[index].next = head[index+1]
-
-for item in head:
-    print(item)
-
-test = Solution()
-test.deleteNode(
-    head[1]
-)
+    def __str__(self):
+        string = []
+        pointer = self.head
+        while pointer.next:
+            string.append(pointer.data)
+            pointer = pointer.next
+        string = ' -> '.join(string)
+        return string
 
 
-print()
-for item in head:
-    print(item)
+linked_list_list = [4,5,1,9]
+
+linked_list = LinkedList()
+for item in linked_list_list:
+    linked_list.add(ListNode(item))
+
+print(linked_list)
+
+
+
+# test = Solution()
+# test.deleteNode(
+#     head[1]
+# )
+# 
+# 
+# print()
+# for item in head:
+#     print(item)
+# 

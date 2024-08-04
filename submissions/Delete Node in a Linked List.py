@@ -10,8 +10,12 @@ class Solution(object):
         :type node: ListNode
         :rtype: void Do not return anything, modify node in-place instead.
         """
-        if node and node.next:
-            node_to_delete = node.next
-            node.val = node_to_delete.val
-            node.next = node_to_delete.next
-            del node_to_delete
+        # if node and node.next:
+        #     node_to_be_replaced_with = node.next
+        #     node.val = node_to_be_replaced_with.val
+        #     node.next = node_to_be_replaced_with.next
+        #     del node_to_be_replaced_with
+
+        if node.next:
+            node.val = node.next.val
+            node.next = node.next.next
