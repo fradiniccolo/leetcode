@@ -11,7 +11,7 @@ class Solution(object):
         :rtype: bool
         """
 
-        def max_subtree_val(node):
+        def get_subtree_max(node):
 
             current_node = node
             to_visit = [current_node]
@@ -20,6 +20,9 @@ class Solution(object):
             while to_visit:
 
                 current_node = to_visit.pop(0)
+                if not current_node:
+                    continue
+
                 if current_node.left:
                     to_visit.append(current_node.left)
                 if current_node.right:
@@ -32,7 +35,7 @@ class Solution(object):
 
             return max_val_found
 
-        def min_subtree_val(node):
+        def get_subtree_min(node):
 
             current_node = node
             to_visit = [current_node]
@@ -41,6 +44,9 @@ class Solution(object):
             while to_visit:
 
                 current_node = to_visit.pop(0)
+                if not current_node:
+                    continue
+
                 if current_node.left:
                     to_visit.append(current_node.left)
                 if current_node.right:
@@ -54,12 +60,27 @@ class Solution(object):
             return min_val_found
 
         def validate_subtree(node):
-            pass
+            if node.left:
+                if not node.val > get_subtree_max(node.left):
+                    return False
+            if node.right:
+                if not node.val < get_subtree_min(node.right):
+                    return False
+            return True
 
-        if min_subtree_val(root.left) >= root.left:
-            return False
-        if max_subtree_val(root.right) <= root.right:
-            return False
-        if not validate_subtree(root):
-            return False
+        current_node = root
+        to_visit = [current_node]
+
+        while to_visit:
+
+            current_node = to_visit.pop(0)
+
+            if not validate_subtree(current_node):
+                return False
+
+            if current_node.left:
+                to_visit.append(current_node.left)
+            if current_node.right:
+                to_visit.append(current_node.right)
+
         return True
