@@ -3,7 +3,13 @@ import os
 os.system('cls||clear')
 
 with open('../temp2.txt', 'r') as _:
+import os
+
+os.system('cls||clear')
+
+with open('../temp2.txt', 'r') as _:
     hard_one = eval(_.read())
+
 
 
 def maxSubArray(nums):
@@ -45,14 +51,23 @@ tests = (
     ([-2, -3, -1], -1),
     ([-2, 1], 1),
     ([-2, -1], -1),
+    ([-2, -3, -1], -1),
+    ([-2, 1], 1),
+    ([-2, -1], -1),
     ([-2, 1, -3, 4, -1, 2, 1, -5, 4], 6),
     ([5, 4, -1, 7, 8], 23),
+    ([1], 1),
+    ([-1], -1),
     ([1], 1),
     ([-1], -1),
     (hard_one, None),
 )
 
 for input, expected in tests:
+    if len(input) <= 16:
+        print(f"input: {input}")
+    else:
+        print(f"input: {str(input[:8])[:-1]}, ...]")
     if len(input) <= 16:
         print(f"input: {input}")
     else:
