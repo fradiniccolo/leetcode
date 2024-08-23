@@ -2,50 +2,35 @@ import os
 
 
 def maxSubArray(nums):
+    
+    candidates = [range(nums[0], nums[0])]
+    max_values = [nums[0]]
 
-    from itertools import product
+    for num in nums[1:]:
 
-    array_len = len(nums)
-    array_sum = sum(nums)
-    max_so_far = array_sum
+        candidate = candidates[-1]
 
-    # progressive left sums
-    left_sums = [0]
-    for i in range(array_len-1):
-        left_sums.append(left_sums[-1]+nums[i])
+        if candidate.stop + num > candidate.start:
+            candidates[-1] = range(candidate.start, candidate.stop+num)
+            
+            if candidates[-1].stop > max_values[-1]:
+                max_values[-1] = candidates[-1].stop
+        else:
+            candidates.append(range(num, num))
+            max_values.append(num)
 
-    # progressive right sums
-    right_sums = [0]
-    for i in range(array_len-1):
-        right_sums.append(right_sums[-1]+nums[-1-i])
-
-    # all the combinations of left and right sums
-    idx_generator = (
-        (left_idx, right_idx)
-        for left_idx, right_idx
-        in product(range(array_len), repeat=2)
-        if left_idx+right_idx < array_len
-    )
-
-    for left_idx, right_idx in idx_generator:
         
-        # evaluate all subarrays sums by gradually removing elements from the sides
-        middle_sum = array_sum - left_sums[left_idx] - right_sums[right_idx]
-
-        # udpating max sum value
-        if middle_sum > max_so_far:
-            max_so_far = middle_sum
-
-    return max_so_far
-
+    print(candidates)
+    print(max_values)
+    
+    return max(max_values)
 
 # testing
-
 os.system('cls||clear')
 
 
-with open('../temp2.txt', 'r') as _:
-    hard_one = eval(_.read())
+# with open('../temp2.txt', 'r') as _:
+#    hard_one = eval(_.read())
 
 tests = (
     ([-2, -3, -1], -1),
@@ -55,7 +40,7 @@ tests = (
     ([5, 4, -1, 7, 8], 23),
     ([1], 1),
     ([-1], -1),
-    (hard_one, None),
+    # (hard_one, None),
 )
 
 for input, expected in tests:
