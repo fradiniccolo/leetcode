@@ -1,53 +1,19 @@
-import os
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
 
+        values_range = range(nums[0], nums[0])
+        max_value = nums[0]
 
-def maxSubArray(nums):
-    
-    candidates = [range(nums[0], nums[0])]
-    max_values = [nums[0]]
+        for num in nums[1:]:
 
-    for num in nums[1:]:
+            if (len(values_range) == 0 and values_range.stop < 0) or \
+                    (len(values_range) != 0 and values_range.stop + num < 0):
+                values_range = range(num, num)
 
-        candidate = candidates[-1]
+            else:
+                values_range = range(values_range.start, values_range.stop+num)
 
-        if candidate.stop + num > candidate.start:
-            candidates[-1] = range(candidate.start, candidate.stop+num)
-            
-            if candidates[-1].stop > max_values[-1]:
-                max_values[-1] = candidates[-1].stop
-        else:
-            candidates.append(range(num, num))
-            max_values.append(num)
+            if values_range.stop > max_value:
+                max_value = values_range.stop
 
-        
-    print(candidates)
-    print(max_values)
-    
-    return max(max_values)
-
-# testing
-os.system('cls||clear')
-
-
-# with open('../temp2.txt', 'r') as _:
-#    hard_one = eval(_.read())
-
-tests = (
-    ([-2, -3, -1], -1),
-    ([-2, 1], 1),
-    ([-2, -1], -1),
-    ([-2, 1, -3, 4, -1, 2, 1, -5, 4], 6),
-    ([5, 4, -1, 7, 8], 23),
-    ([1], 1),
-    ([-1], -1),
-    # (hard_one, None),
-)
-
-for input, expected in tests:
-    if len(input) <= 16:
-        print(f"input: {input}")
-    else:
-        print(f"input: {str(input[:8])[:-1]}, ...]")
-    output = maxSubArray(input)
-    print(f"expected: {expected}")
-    print(f"output: {output}\n")
+        return max_value
