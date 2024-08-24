@@ -2,6 +2,7 @@ import os
 
 
 def rob(nums):
+    
     if len(nums) == 1:
         return nums[0]
 
@@ -9,9 +10,6 @@ def rob(nums):
         choices = []
         try:
             choices.append((nums[idx+2], idx+2))
-        except IndexError:
-            pass
-        try:
             choices.append((nums[idx+3], idx+3))
         except IndexError:
             pass
@@ -27,6 +25,8 @@ def rob(nums):
                 idxs.append(next_idx)
             else:
                 break
+        
+        print([f"{idx}({nums[idx]})" for idx in idxs])
         return idxs
 
     attempt0 = sum([nums[idx] for idx in get_idsx(0)])
