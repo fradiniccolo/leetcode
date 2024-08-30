@@ -1,33 +1,21 @@
-from time import time
-from functools import cache
-
-
 class Solution:
     def countPrimes(self, n: int) -> int:
 
-        @cache
-        def is_prime(n):
-            if n < 2:
-                return False
-            if n == 2:
-                return True
-            if n % 2 == 0:
-                return False
-            i = 2
-            while i*i <= n:
-                if n % i == 0:
-                    return False
-                i += 1
-            return True
+        if n <= 2:
+            return 0
 
-        count = 0
-        for i in range(1,n,2):
-            if is_prime(i):
-                count += 2
-        return count
+        is_prime = [True] * n
+        is_prime[0] = False
+        is_prime[1] = False
 
-test = Solution()
-time_start = time()
-print(f"{test.countPrimes(5000000):,}")
-time_end = time()
-print(f"runtime: {time_end-time_start:.6f}")
+        # sieve of eratosthenes
+        current = 2
+        while (current * current < n):
+            if is_prime[current]:
+                # prime's multiples are not primes
+                for mult_index in range(current * current, n, current):
+                    is_prime[mult_index] = False
+            current += 1
+
+        prime_count = sum(is_prime)
+        return prime_count
