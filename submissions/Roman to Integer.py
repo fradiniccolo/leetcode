@@ -2,37 +2,35 @@ class Solution:
     def romanToInt(self, s: str) -> int:
 
         str_to_int = {
-            'III': 3,
-            'II': 2,
             'I': 1,
-            'XXX': 30,
-            'XX': 20,
-            'X': 10,
-            'CCC': 300,
-            'CC': 200,
-            'C': 100,
-            'MMM': 3000,
-            'MM': 2000,
-            'M': 1000,
             'V': 5,
+            'X': 10,
             'L': 50,
+            'C': 100,
             'D': 500,
+            'M': 1000
         }
 
-        chars = [s[0]]
-        for char in s[1:]:
-            if char == chars[-1][-1]:
-                chars[-1] += char
+        s = [str_to_int[i] for i in s]
+
+        total = 0
+        for curr_int, next_int in zip(s, s[1:]+[0]):
+            if curr_int >= next_int or next_int == 0:
+                total += curr_int
             else:
-                chars.append(char)
+                total -= curr_int
 
-        nums = [str_to_int.get(item) for item in chars]
+        return total
 
-        nums_sum = 0
-        for curr_num, next_num in zip(nums, nums[1:]+[0]):
-            if curr_num > next_num:
-                nums_sum += curr_num
-            else:
-                nums_sum -= curr_num
 
-        return nums_sum
+tests = [
+    ("III", 3),
+    ("VIII", 8),
+    ("IV", 4),
+    ("LVIII", 58),
+    ("MCMXCIV", 1994),
+]
+
+for test, expected in tests:
+    solution = Solution()
+    print(f"{test}: {expected}/{solution.romanToInt(test)}")
