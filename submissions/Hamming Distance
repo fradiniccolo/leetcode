@@ -1,0 +1,14 @@
+from itertools import zip_longest
+
+
+class Solution:
+    def hammingDistance(self, x: int, y: int) -> int:
+
+        x = f"{x:b}"[::-1]
+        y = f"{y:b}"[::-1]
+
+        count = 0
+        for i, j in zip_longest(x, y, fillvalue='0'):
+            if i != j:
+                count += 1
+        return count
